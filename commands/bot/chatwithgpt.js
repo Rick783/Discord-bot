@@ -1,4 +1,5 @@
-import { chatWithGPT } from '../../datapackage/botfunction/chatgpt.js';
+import { SlashCommandBuilder } from '@discordjs/builders'
+import { chatWithGPT } from '../../datapackage/botfunction/chatgpt.js'
 
 // 定義 slash 指令的資料
 export const data = new SlashCommandBuilder()
