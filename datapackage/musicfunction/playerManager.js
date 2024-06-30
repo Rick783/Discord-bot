@@ -1,24 +1,22 @@
 import { createAudioPlayer, createAudioResource, joinVoiceChannel, demuxProbe, getVoiceConnection } from '@discordjs/voice';
 import { AttachmentBuilder, EmbedBuilder } from 'discord.js';
 import ytdl from 'ytdl-core';
-import fs from 'fs';
-import { get } from 'http';
-import { compileFunction } from 'vm';
+import fs from 'fs/promises';
 
 let playlists = new Map();
 const playlistPath = 'datapackage/musicfunction/playlists.json';
 
 // 將播放列表保存到文件的函數
-const savePlaylists = () => {
+const savePlaylists = async() => {
     const jsonObject = Object.fromEntries(playlists.entries());
-    fs.writeFileSync(playlistPath, JSON.stringify(jsonObject));
+    await fs.writeFile(playlistPath, JSON.stringify(jsonObject));
 };
 
 // 從文件中加載播放列表的函數
-const loadPlaylists = () => {
+const loadPlaylists = async() => {
     if (fs.existsSync(playlistPath)) {
         try {
-            const data = fs.readFileSync(playlistPath, 'utf-8');
+            const data = await fs.readFile(playlistPath, 'utf-8');
             playlists = new Map(Object.entries(JSON.parse(data)));
         } catch (err) {
             console.error('解析播放列表失敗:', err);
